@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:travel_online/views/auth/login_view.dart';
 import 'package:travel_online/views/splash_view.dart';
 
 part 'routes.dart';
@@ -12,6 +13,10 @@ class Pages {
     GetPage(
       name: Routes.splash,
       page: () => const SplashView(),
+    ),
+    GetPage(
+      name: Routes.login,
+      page: () => const LoginView(),
     ),
   ];
 }

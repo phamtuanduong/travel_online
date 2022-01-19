@@ -47,16 +47,9 @@ class MyApp extends StatelessWidget {
     });
   }
 
-  ThemeData _themeData(ThemeData theme) {
-    return theme.copyWith(
-      textTheme: GoogleFonts.sourceSansProTextTheme(
-        theme.textTheme,
-      ),
-    );
-  }
-
   GetMaterialApp _getMaterialApp() {
     return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'tilte_app'.tr,
       initialRoute: '/',
       initialBinding: InitialBinding(),
@@ -81,8 +74,8 @@ class MyApp extends StatelessWidget {
       },
       //Chang mặc định theme ở đây
       themeMode: ThemeMode.system,
-      theme: _themeData(ThemeConfig.lightTheme),
-      darkTheme: _themeData(ThemeConfig.darkTheme),
+      theme: ThemeConfig.lightThemeData.copyWith(),
+      darkTheme: ThemeConfig.darkThemeData.copyWith(),
       getPages: Pages.routes,
       //Ngôn ngữ ứng dụng
       locale: TranslationService.locale,

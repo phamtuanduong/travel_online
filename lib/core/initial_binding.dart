@@ -4,6 +4,7 @@ import 'package:travel_online/core/view_models/view_models.dart';
 class InitialBinding extends Bindings {
   @override
   void dependencies() {
+    Get.lazyPut(() => AuthViewModel());
     Get.lazyPut(() => SplashViewModel());
   }
 }
