@@ -1,6 +1,7 @@
 export 'app_const.dart';
 export 'extension.dart';
 
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -22,6 +23,20 @@ class Constants {
   static final double screenWidth = screenSize.width;
 
   static final double screenHeight = screenSize.height;
+
+  static bool isMobile() {
+    bool kisweb;
+    try {
+      if (Platform.isAndroid || Platform.isIOS) {
+        kisweb = false;
+      } else {
+        kisweb = true;
+      }
+    } catch (e) {
+      kisweb = true;
+    }
+    return !kisweb;
+  }
 
   const Constants._();
 }

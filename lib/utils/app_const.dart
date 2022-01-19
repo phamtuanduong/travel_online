@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:io';
 
 /// status light
 const SystemUiOverlayStyle lightSystemUiOverlayStyle = SystemUiOverlayStyle(
@@ -11,5 +10,3 @@ const SystemUiOverlayStyle lightSystemUiOverlayStyle = SystemUiOverlayStyle(
   statusBarIconBrightness: Brightness.light,
   statusBarBrightness: Brightness.dark,
 );
-
-final isMobile = Platform.isIOS || Platform.isAndroid;

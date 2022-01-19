@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
@@ -10,7 +12,7 @@ import 'core/initial_binding.dart';
 import 'lang/translation_service.dart';
 import 'routes/pages.dart';
 
-void main() {
+void main() async {
   runApp(const MyApp());
 }
 
@@ -80,7 +82,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FlutterSmartDialog.monitor();
-    if (isMobile) {
+    if (Constants.isMobile()) {
       _subscribeConnectivityChange();
     }
     return _getMaterialApp();
