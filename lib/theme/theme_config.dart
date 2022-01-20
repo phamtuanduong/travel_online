@@ -80,9 +80,16 @@ class ThemeConfig {
     onError: darkAccent,
     onPrimary: darkAccent,
     onSecondary: darkAccent,
-    onSurface: darkAccent,
+    onSurface: Colors.red,
     brightness: Brightness.dark,
   );
+
+  static Color getAccent() {
+    if (Get.theme.brightness == Brightness.dark) {
+      return darkAccent;
+    }
+    return lightAccent;
+  }
 
   static Color getPrimary() {
     if (Get.theme.brightness == Brightness.dark) {
@@ -102,5 +109,13 @@ class ThemeConfig {
 
   static Color compareColor(Color fColor, Color sColor) {
     return isTheme() ? fColor : sColor;
+  }
+
+  static Color color54() {
+    return isTheme() ? Colors.black54 : Colors.white54;
+  }
+
+  static Color colorGreyAndWhite54() {
+    return isTheme() ? Colors.black54 : Colors.white54;
   }
 }

@@ -23,7 +23,7 @@ class SplashView extends GetView {
             Container(
               color: Constants.splashPageBgc,
               child: Image.asset(
-                "assets/images/splash.jpg",
+                "assets/images/splash.png",
                 fit: BoxFit.fitHeight,
               ),
             ),

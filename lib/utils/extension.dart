@@ -1,4 +1,4 @@
-import 'package:travelonline/utils/constants.dart';
+import 'package:travelonline/theme/theme_config.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:flutter/material.dart';
 
@@ -6,7 +6,7 @@ extension NullableStringExt on String? {
   toast() async {
     showToastWidget(Builder(
       builder: (BuildContext context) {
-        const bgc = Constants.defaultColor;
+        final bgc = ThemeConfig.getPrimary();
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -38,7 +38,7 @@ extension NullableStringExt on String? {
               child: Text(
                 this!,
                 style: const TextStyle(
-                  color: Colors.white,
+                  color: Colors.grey,
                   fontWeight: FontWeight.bold,
                 ),
               ),

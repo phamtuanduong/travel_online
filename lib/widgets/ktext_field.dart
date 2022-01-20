@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:travelonline/theme/theme_config.dart';
 
 class KTextField extends StatelessWidget {
@@ -8,10 +7,12 @@ class KTextField extends StatelessWidget {
     this.hideText,
     this.onSubmitted,
     this.textSize = 14,
+    this.isDense = true,
   }) : super(key: key);
   final String? hideText;
   final Function(String)? onSubmitted;
   final double textSize;
+  final bool isDense;
   @override
   Widget build(BuildContext context) {
     const style = TextStyle(fontSize: 17);
@@ -26,7 +27,7 @@ class KTextField extends StatelessWidget {
           filled: true,
           hintText: hideText,
           hintStyle: style,
-          isDense: true,
+          isDense: isDense,
           border: OutlineInputBorder(
               borderSide: BorderSide.none,
               borderRadius: BorderRadius.circular(200))),
