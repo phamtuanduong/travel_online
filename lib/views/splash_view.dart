@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:travel_online/routes/pages.dart';
-import 'package:travel_online/utils/constants.dart';
+import 'package:travelonline/routes/pages.dart';
+import 'package:travelonline/utils/constants.dart';
 
 class SplashView extends GetView {
   const SplashView({Key? key}) : super(key: key);

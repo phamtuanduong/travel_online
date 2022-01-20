@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ThemeConfig {
@@ -82,4 +83,24 @@ class ThemeConfig {
     onSurface: darkAccent,
     brightness: Brightness.dark,
   );
+
+  static Color getPrimary() {
+    if (Get.theme.brightness == Brightness.dark) {
+      return darkPrimary;
+    }
+    return lightPrimary;
+  }
+
+  static Color getNotPrimary() {
+    if (Get.theme.brightness == Brightness.dark) {
+      return lightPrimary;
+    }
+    return darkPrimary;
+  }
+
+  static bool isTheme() => Get.theme.brightness != Brightness.dark;
+
+  static Color compareColor(Color fColor, Color sColor) {
+    return isTheme() ? fColor : sColor;
+  }
 }

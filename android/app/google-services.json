@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "974487039712",
+    "project_id": "travelonline-9a6dst",
+    "storage_bucket": "travelonline-9a6dst.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974487039712:android:cb04bd4b66f9496bf86a85",
+        "android_client_info": {
+          "package_name": "com.duonglvtn.travelonline"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "974487039712-i2eeti8ba2d8bi4jmj4n872dc6ra94hn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5HUp56VgmEqTx3MHNVuSd_4vsDB5Jv_w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "974487039712-i2eeti8ba2d8bi4jmj4n872dc6ra94hn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

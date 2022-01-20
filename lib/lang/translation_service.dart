@@ -9,7 +9,7 @@ class TranslationService extends Translations {
   static const fallbackLocale = Locale('vi', 'vn');
   @override
   Map<String, Map<String, String>> get keys => {
-        'en_US': enUS,
-        'vi_VN': viVN,
+        'en_vn': enUS,
+        'vi_vn': viVN,
       };
 }

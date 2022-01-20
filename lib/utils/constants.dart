@@ -24,6 +24,13 @@ class Constants {
 
   static final double screenHeight = screenSize.height;
 
+  static Widget boxPadding({double width = 0, double height = 0}) {
+    return SizedBox(
+      height: height,
+      width: width,
+    );
+  }
+
   static bool isMobile() {
     bool kisweb;
     try {
@@ -38,5 +45,7 @@ class Constants {
     return !kisweb;
   }
 
+  //default padding
+  static const double dkp = 20.0;
   const Constants._();
 }

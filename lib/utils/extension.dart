@@ -1,4 +1,4 @@
-import 'package:travel_online/utils/constants.dart';
+import 'package:travelonline/utils/constants.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:flutter/material.dart';
 

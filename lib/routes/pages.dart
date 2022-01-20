@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:travel_online/views/auth/login_view.dart';
-import 'package:travel_online/views/splash_view.dart';
+import 'package:travelonline/views/auth/login_view.dart';
+import 'package:travelonline/views/splash_view.dart';
 
 part 'routes.dart';
 
