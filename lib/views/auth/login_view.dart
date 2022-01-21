@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:travelonline/core/view_models/auth_view_model.dart';
+import 'package:travelonline/core/viewmodels/view_models.dart';
+import 'package:travelonline/routes/pages.dart';
 import 'package:travelonline/theme/theme_config.dart';
 import 'package:travelonline/utils/constants.dart';
 import 'package:travelonline/widgets/widgets.dart';
 
 class LoginView extends GetView<AuthViewModel> {
   const LoginView({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
+    final controller = Get.find<AuthViewModel>();
     return Scaffold(
-      backgroundColor: ThemeConfig.darkAccent,
+      backgroundColor: ThemeConfig.bgAccent,
       body: SafeArea(
         bottom: false,
         child: Stack(
@@ -39,105 +41,159 @@ class LoginView extends GetView<AuthViewModel> {
                 Constants.boxPadding(height: Constants.dkp / 2),
                 Expanded(
                   child: Container(
-                    child: SingleChildScrollView(
+                    child: Form(
+                      key: _formKey,
                       child: Container(
                         padding: const EdgeInsets.all(Constants.dkp / 2),
                         height: Constants.screenHeight / 1.5,
                         width: double.infinity,
-                        child: Column(
-                          children: [
-                            KText(
-                              text:
-                                  "Chào mừng bạn đến với ứng dụng\n✈️Du lịch trực tuyến!💕",
-                              isCenter: true,
-                              size: 20,
-                              isBold: true,
-                              tColor: ThemeConfig.getAccent(),
-                            ),
-                            Constants.boxPadding(height: Constants.dkp * 2.5),
-                            KTextField(
-                                hideText: "Tên đăng nhập/email",
-                                onSubmitted: (value) {}),
-                            Constants.boxPadding(height: Constants.dkp * 1.5),
-                            KTextField(
-                                hideText: "Mật khẩu", onSubmitted: (value) {}),
-                            Constants.boxPadding(height: Constants.dkp * 2),
-                            KTextButtonOnlyText(
-                              text: "Đăng nhập",
-                              onClick: () {},
-                              textColor: Colors.white,
-                            ),
-                            Constants.boxPadding(height: Constants.dkp),
-                            GestureDetector(
-                              onTap: () {},
-                              child: KText(
-                                text: "Quên mật khẩu?",
-                                size: 18,
-                                tColor: ThemeConfig.color54(),
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Constants.boxPadding(height: Constants.dkp / 2),
+                              KText(
+                                text:
+                                    "Chào mừng bạn đến với ứng dụng\n✈️Du lịch trực tuyến!💕",
+                                isCenter: true,
+                                size: 20,
+                                isBold: true,
+                                tColor: ThemeConfig.getAccent(),
                               ),
-                            ),
-                            Constants.boxPadding(height: Constants.dkp * 2.5),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 1,
-                                  width: Constants.screenWidth / 4,
-                                  color: Colors.grey,
+                              Constants.boxPadding(height: Constants.dkp * 2.5),
+                              GetBuilder<AuthViewModel>(
+                                init: controller,
+                                builder: (_) {
+                                  if (controller.noFindAccount) {
+                                    return KText(
+                                      text: "${controller.haveEmail}",
+                                      size: 14,
+                                      tColor: Colors.red,
+                                    );
+                                  }
+                                  return Constants.boxPadding();
+                                },
+                              ),
+                              KTextField(
+                                hideText: "Tên đăng nhập/email",
+                                onSaved: (value) {
+                                  if (value!.contains('@')) {
+                                    controller.email = value;
+                                  } else {
+                                    controller.username = value;
+                                  }
+                                },
+                                onChanged: (value) {
+                                  controller.password = value;
+                                },
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'empty_name'.tr;
+                                  }
+                                },
+                              ),
+                              Constants.boxPadding(height: Constants.dkp * 1.5),
+                              KTextField(
+                                  hideText: 'password'.tr,
+                                  obscureText: true,
+                                  onSaved: (value) {
+                                    controller.password = value;
+                                  },
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'empty_password'.tr;
+                                    } else {
+                                      if (controller.password != null &&
+                                          controller.password!.length < 6) {
+                                        return 'illegal_password'.tr;
+                                      }
+                                    }
+                                  }),
+                              Constants.boxPadding(height: Constants.dkp * 2),
+                              KTextButtonOnlyText(
+                                text: 'login'.tr,
+                                onClick: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    _formKey.currentState!.save();
+                                    controller.signInWithEmailAndPassword();
+                                  }
+                                },
+                                textColor: Colors.white,
+                              ),
+                              Constants.boxPadding(height: Constants.dkp),
+                              GestureDetector(
+                                onTap: () {},
+                                child: KText(
+                                  text: 'forget_password'.tr,
+                                  size: 18,
+                                  tColor: ThemeConfig.color54(),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: Constants.dkp / 2),
-                                  child: KText(
-                                    text: "HOẶC",
-                                    size: 17,
-                                    tColor: ThemeConfig.colorGreyAndWhite54(),
+                              ),
+                              Constants.boxPadding(height: Constants.dkp * 2.5),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 1,
+                                    width: Constants.screenWidth / 4,
+                                    color: Colors.grey,
                                   ),
-                                ),
-                                Container(
-                                  height: 1,
-                                  width: Constants.screenWidth / 4,
-                                  color: Colors.grey,
-                                ),
-                              ],
-                            ),
-                            Constants.boxPadding(height: Constants.dkp),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                _ThirdLoginButton(
-                                  text: "Google",
-                                  icon: "google",
-                                  onClick: () {},
-                                ),
-                                Constants.boxPadding(width: Constants.dkp * 2),
-                                _ThirdLoginButton(
-                                  text: "Facebook",
-                                  icon: "facebook",
-                                  onClick: () {},
-                                ),
-                              ],
-                            ),
-                            Constants.boxPadding(height: Constants.dkp),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const KText(
-                                  text: "Bạn chưa có tài khoản?",
-                                  tColor: Colors.grey,
-                                ),
-                                TextButton(
-                                  onPressed: () {},
-                                  child: KText(
-                                    text: "Đăng ký ngay",
-                                    tColor: ThemeConfig.getAccent(),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: Constants.dkp / 2),
+                                    child: KText(
+                                      text: 'or'.tr,
+                                      size: 17,
+                                      tColor: ThemeConfig.colorGreyAndWhite54(),
+                                    ),
                                   ),
-                                  style: TextButton.styleFrom(
-                                      primary: ThemeConfig.getNotPrimary()),
-                                )
-                              ],
-                            )
-                          ],
+                                  Container(
+                                    height: 1,
+                                    width: Constants.screenWidth / 4,
+                                    color: Colors.grey,
+                                  ),
+                                ],
+                              ),
+                              Constants.boxPadding(height: Constants.dkp),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  _ThirdLoginButton(
+                                    text: "Google",
+                                    icon: "google",
+                                    onClick: () {},
+                                  ),
+                                  Constants.boxPadding(
+                                      width: Constants.dkp * 2),
+                                  _ThirdLoginButton(
+                                    text: "Facebook",
+                                    icon: "facebook",
+                                    onClick: () {},
+                                  ),
+                                ],
+                              ),
+                              Constants.boxPadding(height: Constants.dkp),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  KText(
+                                    text: 'no_account'.tr,
+                                    tColor: Colors.grey,
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Get.toNamed(Routes.register);
+                                    },
+                                    child: KText(
+                                      text: 'register_now'.tr,
+                                      tColor: ThemeConfig.getAccent(),
+                                    ),
+                                    style: TextButton.styleFrom(
+                                        primary: ThemeConfig.getNotPrimary()),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),

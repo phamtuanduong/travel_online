@@ -9,35 +9,37 @@ class ThemeConfig {
   static const Color darkAccent = Color(0xff2ca8e2);
   static const Color lightBG = Colors.white;
   static const Color darkBG = Color(0xff121212);
+  static const Color bgAccent = Color(0xFF81D4FA);
 
   static ThemeData lightThemeData = themeData(lightColorScheme, lightAccent);
   static ThemeData darkThemeData = themeData(darkColorScheme, darkAccent);
 
   static ThemeData themeData(ColorScheme colorScheme, Color focusColor) {
     return ThemeData(
-      textTheme: GoogleFonts.sourceSansProTextTheme(),
-      colorScheme: colorScheme,
+        textTheme: GoogleFonts.sourceSansProTextTheme(),
+        colorScheme: colorScheme,
 
-      // Matches manifest.json colors and background color.
-      primaryColor: const Color(0xFF030303),
-      appBarTheme: AppBarTheme(
-        backgroundColor: colorScheme.background,
-        elevation: 0,
-        iconTheme: IconThemeData(color: colorScheme.primary),
-      ),
-      iconTheme: IconThemeData(color: colorScheme.onPrimary),
-      canvasColor: colorScheme.background,
-      scaffoldBackgroundColor: colorScheme.background,
-      highlightColor: Colors.transparent,
-      focusColor: focusColor,
-      snackBarTheme: SnackBarThemeData(
-        behavior: SnackBarBehavior.floating,
-        backgroundColor: Color.alphaBlend(
-          lightAccent.withOpacity(0.80),
-          darkAccent,
+        // Matches manifest.json colors and background color.
+        primaryColor: const Color(0xFF030303),
+        appBarTheme: AppBarTheme(
+          backgroundColor: colorScheme.background,
+          elevation: 0,
+          iconTheme: IconThemeData(color: colorScheme.primary),
         ),
-      ),
-    );
+        iconTheme: IconThemeData(color: colorScheme.onPrimary),
+        canvasColor: colorScheme.background,
+        scaffoldBackgroundColor: colorScheme.background,
+        highlightColor: Colors.transparent,
+        focusColor: focusColor,
+        snackBarTheme: SnackBarThemeData(
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Color.alphaBlend(
+            lightAccent.withOpacity(0.80),
+            darkAccent,
+          ),
+        ),
+        textSelectionTheme: const TextSelectionThemeData(
+            selectionColor: bgAccent, selectionHandleColor: bgAccent));
   }
 
   static const ColorScheme lightColorScheme = ColorScheme(

@@ -1,6 +1,7 @@
 import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 import 'package:travelonline/views/auth/login_view.dart';
+import 'package:travelonline/views/auth/register_view.dart';
 import 'package:travelonline/views/splash_view.dart';
 
 part 'routes.dart';
@@ -23,5 +24,11 @@ class Pages {
         transition: Transition.fadeIn,
         curve: Curves.easeIn,
         transitionDuration: _timeAnimation),
+    GetPage(
+      name: Routes.register,
+      page: () => const RegisterView(),
+      transition: Transition.rightToLeft,
+      curve: Curves.easeInQuad,
+    ),
   ];
 }

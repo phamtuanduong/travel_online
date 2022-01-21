@@ -1,12 +1,16 @@
-import 'package:travelonline/theme/theme_config.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:flutter/material.dart';
 
 extension NullableStringExt on String? {
-  toast() async {
+  toast({int code = 0}) async {
     showToastWidget(Builder(
       builder: (BuildContext context) {
-        final bgc = ThemeConfig.getPrimary();
+        var bgc = Colors.green.shade300;
+        var textColor = Colors.black54;
+        if (code == 1) {
+          bgc = Colors.redAccent;
+          textColor = Colors.white;
+        }
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -37,8 +41,8 @@ extension NullableStringExt on String? {
               ),
               child: Text(
                 this!,
-                style: const TextStyle(
-                  color: Colors.grey,
+                style: TextStyle(
+                  color: textColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),

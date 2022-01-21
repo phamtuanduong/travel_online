@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:travelonline/theme/theme_config.dart';
 
 class KText extends StatelessWidget {
   const KText(
