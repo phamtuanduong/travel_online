@@ -45,6 +45,15 @@ class Constants {
     return !kisweb;
   }
 
+  static BuildContext? buildContext;
+
+  static void hideKeyboard() {
+    FocusScopeNode currentFocus = FocusScope.of(buildContext!);
+    if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+      FocusManager.instance.primaryFocus!.unfocus();
+    }
+  }
+
   //default padding
   static const double dkp = 20.0;
   const Constants._();

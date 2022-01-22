@@ -72,6 +72,7 @@ class MyApp extends StatelessWidget {
                 body: GestureDetector(
                   onTap: () {
                     hideKeyboard(context);
+                    Constants.buildContext = context;
                   },
                   child: child,
                 ),
@@ -79,7 +80,7 @@ class MyApp extends StatelessWidget {
         );
       },
       //Chang mặc định theme ở đây
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       theme: ThemeConfig.lightThemeData.copyWith(),
       darkTheme: ThemeConfig.darkThemeData.copyWith(),
       getPages: Pages.routes,

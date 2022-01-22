@@ -4,14 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:travelonline/core/models/models.dart';
 
 class LocalStorageUser {
-  static setUserData(UserModel userModel) async {
+  static setUserData(AccountModel userModel) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('user', json.encode(userModel.toJson()));
+    await prefs.setString('account', json.encode(userModel.toJson()));
   }
 
-  static Future<UserModel> getUserData() async {
+  static Future<AccountModel> getUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return UserModel.fromJson(json.decode(prefs.getString('user')!));
+    return AccountModel.fromJson(json.decode(prefs.getString('acoount')!));
   }
 
   static clearUserData() async {

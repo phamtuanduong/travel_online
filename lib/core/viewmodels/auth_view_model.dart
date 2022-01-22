@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
@@ -16,7 +18,7 @@ class AuthViewModel extends GetxController {
   String? get user => _user?.value?.email;
 
   String? haveUserName, haveEmail;
-  bool noFindAccount = false;
+  bool noFindAccount = false, isAction = false;
 
   @override
   void onInit() {
@@ -26,21 +28,29 @@ class AuthViewModel extends GetxController {
 
   //Đăng ký bằng email, password
   void signUpWithEmailAndPassword() async {
+    startAction();
     try {
-      await _auth
-          .createUserWithEmailAndPassword(email: email!, password: password!)
-          .then((user) {
-        //saveUser(user);
-        'register_success'.tr.toast();
-      }).onError((error, stackTrace) {
-        //print(error);
-        if (error.toString().contains('email-already-in-use')) {
-          haveEmail = 'have_email'.tr;
-          update(['email_validator']);
-        }
-
+      final checkUserName = await FirestoreUser().checkUserNameExist(username!);
+      if (!checkUserName) {
+        await _auth
+            .createUserWithEmailAndPassword(email: email!, password: password!)
+            .then((user) {
+          saveUser(user);
+          'register_success'.tr.toast();
+        }).onError((error, stackTrace) {
+          //print(error);
+          if (error.toString().contains('email-already-in-use')) {
+            haveEmail = 'have_email'.tr;
+            update(['email_validator']);
+          }
+          'register_fail'.tr.toast(code: 1);
+        });
+      } else {
+        haveUserName = 'have_user_name'.tr;
+        update(['username_validator']);
         'register_fail'.tr.toast(code: 1);
-      });
+      }
+
       //Get.offAll(ControlView());
     } catch (error) {
       // String errorMessage =
@@ -53,23 +63,53 @@ class AuthViewModel extends GetxController {
     }
   }
 
+  //Đăng nhập
+  void signIn() async {
+    if (!username!.contains('@')) {
+      FirestoreUser().getAccount(username!).then((doc) {
+        if (doc.exists && doc.data() != null) {
+          print(doc.data());
+          print(doc.data().toMap().toString());
+          final account = AccountModel.fromMap(doc.data().toMap());
+
+          email = account.email;
+          signInWithEmailAndPassword(accountModel: account);
+        } else {
+          noFindAccount = true;
+          update(['no_find_account']);
+          'login_fail'.tr.toast(code: 1);
+        }
+      });
+    } else {
+      await signInWithEmailAndPassword();
+    }
+  }
+
   //Đăng nhập bằng email, password
-  void signInWithEmailAndPassword() async {
+  Future<void> signInWithEmailAndPassword({AccountModel? accountModel}) async {
+    startAction();
     try {
       await _auth
           .signInWithEmailAndPassword(email: email!, password: password!)
           .then((user) {
-        // FirestoreUser().getUserFromFirestore(user.user!.uid).then((doc) {
-        //   saveUserLocal(UserModel.fromJson(doc.data().toString()));
-        // });
-        print(user);
+        if (accountModel != null) {
+          saveUserLocal(accountModel);
+        } else {
+          FirestoreUser().getAccount(username!).then((doc) {
+            saveUserLocal(AccountModel.fromJson(doc.data().toString()));
+          });
+        }
+        'login_success'.tr.toast();
+        stopAction();
       });
 
       //Get.offAll(ControlView());
     } catch (error) {
       String errorMessage =
           error.toString().substring(error.toString().indexOf(' ') + 1);
-      'login_fail'.tr.toast();
+      'login_fail'.tr.toast(code: 1);
+      noFindAccount = false;
+      update(['no_find_account']);
       errorMessage.toast();
     }
   }
@@ -91,13 +131,15 @@ class AuthViewModel extends GetxController {
       });
       //Get.offAll(ControlView());
     } catch (error) {
-      String errorMessage =
-          error.toString().substring(error.toString().indexOf(' ') + 1);
-      Get.snackbar(
-        'Failed to login..',
-        errorMessage,
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      // String errorMessage =
+      //     error.toString().substring(error.toString().indexOf(' ') + 1);
+      // Get.snackbar(
+      //   'Failed to login..',
+      //   errorMessage,
+      //   snackPosition: SnackPosition.BOTTOM,
+      // );
+      print(error);
+      'login_fail'.tr.toast(code: 1);
     }
   }
 
@@ -133,18 +175,34 @@ class AuthViewModel extends GetxController {
 
   void saveUser(UserCredential userCredential) async {
     UserModel _userModel = UserModel(
-      userId: userCredential.user!.uid,
-      email: userCredential.user!.email!,
-      name: name == null ? userCredential.user!.displayName! : name!,
+      userName: username ??
+          (name == null ? userCredential.user!.displayName! : name!),
+      displayName: username ??
+          (name == null ? userCredential.user!.displayName! : name!),
       pic: userCredential.user!.photoURL == null
           ? 'default'
           : userCredential.user!.photoURL! + "?width=400",
     );
-    FirestoreUser().addUserToFirestore(_userModel);
-    saveUserLocal(_userModel);
+    AccountModel _accountModel = AccountModel(
+        email: userCredential.user!.email!,
+        username: _userModel.userName,
+        userId: userCredential.user!.uid);
+    FirestoreUser().addUserToFirestore(_userModel, _accountModel);
+    saveUserLocal(_accountModel);
   }
 
-  void saveUserLocal(UserModel userModel) async {
+  void saveUserLocal(AccountModel userModel) async {
     LocalStorageUser.setUserData(userModel);
+  }
+
+  void startAction() {
+    isAction = true;
+    update(['action_loading']);
+  }
+
+  void stopAction() {
+    isAction = false;
+    Future.delayed(const Duration(seconds: 1))
+        .whenComplete(() => update(['action_loading']));
   }
 }

@@ -62,10 +62,11 @@ class LoginView extends GetView<AuthViewModel> {
                               Constants.boxPadding(height: Constants.dkp * 2.5),
                               GetBuilder<AuthViewModel>(
                                 init: controller,
+                                id: 'no_find_account',
                                 builder: (_) {
                                   if (controller.noFindAccount) {
                                     return KText(
-                                      text: "${controller.haveEmail}",
+                                      text: 'no_have_account'.tr,
                                       size: 14,
                                       tColor: Colors.red,
                                     );
@@ -83,7 +84,11 @@ class LoginView extends GetView<AuthViewModel> {
                                   }
                                 },
                                 onChanged: (value) {
-                                  controller.password = value;
+                                  controller.username = value;
+                                  if (controller.noFindAccount) {
+                                    controller.noFindAccount = false;
+                                    controller.update(['no_find_account']);
+                                  }
                                 },
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -95,6 +100,13 @@ class LoginView extends GetView<AuthViewModel> {
                               KTextField(
                                   hideText: 'password'.tr,
                                   obscureText: true,
+                                  onChanged: (value) {
+                                    controller.password = value;
+                                    if (controller.noFindAccount) {
+                                      controller.noFindAccount = false;
+                                      controller.update(['no_find_account']);
+                                    }
+                                  },
                                   onSaved: (value) {
                                     controller.password = value;
                                   },
@@ -107,6 +119,8 @@ class LoginView extends GetView<AuthViewModel> {
                                         return 'illegal_password'.tr;
                                       }
                                     }
+
+                                    return null;
                                   }),
                               Constants.boxPadding(height: Constants.dkp * 2),
                               KTextButtonOnlyText(
@@ -114,7 +128,8 @@ class LoginView extends GetView<AuthViewModel> {
                                 onClick: () {
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();
-                                    controller.signInWithEmailAndPassword();
+                                    Constants.hideKeyboard();
+                                    controller.signIn();
                                   }
                                 },
                                 textColor: Colors.white,
@@ -160,7 +175,9 @@ class LoginView extends GetView<AuthViewModel> {
                                   _ThirdLoginButton(
                                     text: "Google",
                                     icon: "google",
-                                    onClick: () {},
+                                    onClick: () {
+                                      controller.signInWithGoogleAccount();
+                                    },
                                   ),
                                   Constants.boxPadding(
                                       width: Constants.dkp * 2),
@@ -191,7 +208,19 @@ class LoginView extends GetView<AuthViewModel> {
                                         primary: ThemeConfig.getNotPrimary()),
                                   )
                                 ],
-                              )
+                              ),
+                              Constants.boxPadding(height: Constants.dkp),
+                              GetBuilder<AuthViewModel>(
+                                init: controller,
+                                id: 'action_loading',
+                                builder: (_) => ConditionWidget(
+                                  controller.isAction,
+                                  child: const CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: ThemeConfig.bgAccent,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),

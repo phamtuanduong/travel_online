@@ -20,11 +20,12 @@ const Map<String, String> viVN = {
   'empty_email': 'Vui lòng nhập mật khẩu',
   'empty_password': 'Vui lòng nhập mật khẩu',
   'renot_password': 'Mật khẩu không khớp',
-  'have_user_name': 'Tên người dùng đã đăng ký',
-  'have_email': 'Email này đã đăng ký',
+  'have_user_name': 'Tên người dùng đã được đăng ký',
+  'have_email': 'Email này đã được đăng ký',
   'illegal_email': 'Email không hợp lệ',
   'illegal_password': 'Mật khẩu ít nhất 6 ký tự',
   'register_success': 'Đăng ký tài khoản thành công',
   'register_fail': 'Đăng ký tài khoản không thành công',
   'login_success': 'Đăng nhập thành công',
+  'no_have_account': 'Tên tài khoản hoặc mật khẩu không đúng'
 };

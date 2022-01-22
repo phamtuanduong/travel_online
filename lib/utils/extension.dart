@@ -1,6 +1,12 @@
 import 'package:oktoast/oktoast.dart';
 import 'package:flutter/material.dart';
 
+extension NullableObjectExt on Object? {
+  Map<String, dynamic> toMap() {
+    return this as Map<String, dynamic>;
+  }
+}
+
 extension NullableStringExt on String? {
   toast({int code = 0}) async {
     showToastWidget(Builder(

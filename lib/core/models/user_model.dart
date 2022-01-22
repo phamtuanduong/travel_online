@@ -1,31 +1,22 @@
 import 'dart:convert';
 
 class UserModel {
-  String userId;
-  String email;
-  String name;
+  String userName;
   String displayName;
   String pic;
-
   UserModel({
-    required this.userId,
-    required this.email,
-    required this.name,
-    this.displayName = "",
+    required this.userName,
+    required this.displayName,
     required this.pic,
   });
 
   UserModel copyWith({
-    String? userId,
-    String? email,
-    String? name,
+    String? userName,
     String? displayName,
     String? pic,
   }) {
     return UserModel(
-      userId: userId ?? this.userId,
-      email: email ?? this.email,
-      name: name ?? this.name,
+      userName: userName ?? this.userName,
       displayName: displayName ?? this.displayName,
       pic: pic ?? this.pic,
     );
@@ -33,9 +24,7 @@ class UserModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'userId': userId,
-      'email': email,
-      'name': name,
+      'userName': userName,
       'displayName': displayName,
       'pic': pic,
     };
@@ -43,9 +32,7 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      userId: map['userId'] ?? '',
-      email: map['email'] ?? '',
-      name: map['name'] ?? '',
+      userName: map['userName'] ?? '',
       displayName: map['displayName'] ?? '',
       pic: map['pic'] ?? '',
     );
@@ -57,28 +44,19 @@ class UserModel {
       UserModel.fromMap(json.decode(source));
 
   @override
-  String toString() {
-    return 'UserModel(userId: $userId, email: $email, name: $name, displayName: $displayName, pic: $pic)';
-  }
+  String toString() =>
+      'UserModel(userName: $userName, displayName: $displayName, pic: $pic)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
     return other is UserModel &&
-        other.userId == userId &&
-        other.email == email &&
-        other.name == name &&
+        other.userName == userName &&
         other.displayName == displayName &&
         other.pic == pic;
   }
 
   @override
-  int get hashCode {
-    return userId.hashCode ^
-        email.hashCode ^
-        name.hashCode ^
-        displayName.hashCode ^
-        pic.hashCode;
-  }
+  int get hashCode => userName.hashCode ^ displayName.hashCode ^ pic.hashCode;
 }

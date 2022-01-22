@@ -50,22 +50,44 @@ class RegisterView extends GetView<AuthViewModel> {
                           child: Column(
                             children: [
                               Constants.boxPadding(height: Constants.dkp * 2),
-                              KTextField(
-                                initialValue: "dst",
-                                hideText: 'user_name'.tr,
-                                onSaved: (value) {
-                                  controller.username = value;
-                                },
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return 'empty_name'.tr;
-                                  }
-                                },
+                              GetBuilder<AuthViewModel>(
+                                init: controller,
+                                id: 'username_validator',
+                                builder: (_) => Column(
+                                  children: [
+                                    if (controller.haveUserName != null)
+                                      KText(
+                                        text: "${controller.haveUserName}",
+                                        size: 14,
+                                        tColor: Colors.red,
+                                      ),
+                                    KTextField(
+                                      initialValue: "dst",
+                                      hideText: 'have_user_name'.tr,
+                                      onChanged: (value) {
+                                        controller.username = value;
+                                        if (controller.haveUserName != null) {
+                                          controller.haveUserName = null;
+                                          controller
+                                              .update(["username_validator"]);
+                                        }
+                                      },
+                                      onSaved: (value) {
+                                        controller.username = value;
+                                      },
+                                      validator: (value) {
+                                        if (value!.isEmpty) {
+                                          return 'empty_name'.tr;
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
                               ),
                               Constants.boxPadding(height: Constants.dkp * 1.5),
                               GetBuilder<AuthViewModel>(
                                 init: controller,
-                                id: 'no_find_account',
+                                id: 'email_validator',
                                 builder: (_) => Column(
                                   children: [
                                     if (controller.haveEmail != null)
@@ -210,7 +232,18 @@ class RegisterView extends GetView<AuthViewModel> {
                                         primary: ThemeConfig.getNotPrimary()),
                                   )
                                 ],
-                              )
+                              ),
+                              GetBuilder<AuthViewModel>(
+                                init: controller,
+                                id: 'action_loading',
+                                builder: (_) => ConditionWidget(
+                                  controller.isAction,
+                                  child: const CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: ThemeConfig.bgAccent,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),

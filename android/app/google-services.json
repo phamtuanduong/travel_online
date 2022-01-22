@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "974487039712-ooadrgj6huoraha5mehug9o2gp06nfge.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.duonglvtn.travelonline",
+            "certificate_hash": "d1499ce5083bc17a63580e19e6a8bf3cb210a148"
+          }
+        },
+        {
           "client_id": "974487039712-i2eeti8ba2d8bi4jmj4n872dc6ra94hn.apps.googleusercontent.com",
           "client_type": 3
         }
